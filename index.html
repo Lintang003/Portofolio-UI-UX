@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lintang — Product & UI/UX Designer</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --surface: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.12);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #22d3ee;
+      --radius: 22px;
+      --max: 1200px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(900px 450px at 10% 10%, rgba(34,211,238,.18), transparent 40%),
+        radial-gradient(1000px 500px at 90% -10%, rgba(56,189,248,.18), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Utilities */
+    .container { max-width: var(--max); margin: auto; padding: 0 24px; }
+    section { padding: 120px 0; }
+    h1,h2,h3,h4 { line-height: 1.15; }
+
+    h1 {
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 44px);
+      margin-bottom: 56px;
+      font-weight: 800;
+    }
+
+    p { color: var(--muted); }
+
+    .gradient-text {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      backdrop-filter: blur(18px);
+      background: rgba(11,15,26,.75);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+    }
+
+    .nav {
+      height: 78px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo { font-weight: 900; letter-spacing: .5px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 500;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -6px;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      transition: width .3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* === NAVBAR MOBILE ONLY === */
+    .menu-toggle {
+      display: none;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 78px;
+        right: -100%;
+        width: min(80vw, 320px);
+        height: calc(100vh - 78px);
+        background: rgba(11,15,26,.98);
+        backdrop-filter: blur(18px);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px;
+        gap: 24px;
+        border-left: 1px solid var(--border);
+        transition: right .35s ease;
+        z-index: 999;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+    }
+    .hero-content {
+    position: relative;
+    z-index: 2;
+    }
+
+    .typing::after {
+    content: '|';
+    margin-left: 4px;
+    animation: blink 1s infinite;
+    color: var(--accent);
+    }
+
+    @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+    }
+
+    .hero-badge {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    background: rgba(56,189,248,.15);
+    border: 1px solid var(--border);
+    }
+
+    .hero-title {
+    font-size: clamp(32px, 4.5vw, 52px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    }
+
+    .hero-desc {
+    max-width: 560px;
+    margin-top: 22px;
+    font-size: 18px;
+    }
+
+    .glow {
+    text-shadow: 0 0 30px rgba(56,189,248,.6);
+    }
+
+    /* Decorative blur */
+    .hero-blur {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    filter: blur(120px);
+    opacity: .35;
+    z-index: 0;
+    }
+
+    .blur-1 {
+    background: #38bdf8;
+    top: 10%;
+    left: -10%;
+    }
+
+    .blur-2 {
+    background: #22d3ee;
+    bottom: -10%;
+    right: -10%;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 72px;
+    }
+
+    .hero p {
+      max-width: 560px;
+      margin-top: 28px;
+      font-size: 14px;
+    }
+
+    .section {
+    position: relative;
+    }
+
+    .section-blur {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    filter: blur(120px);
+    opacity: .25;
+    z-index: 0;
+    }
+
+    .section-blur.blue {
+    background: #38bdf8;
+    }
+
+    .section-blur.cyan {
+    background: #38bdf8;
+    }
+
+    .section > .container {
+    position: relative;
+    z-index: 2;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 36px;
+      padding: 16px 28px;
+      border-radius: 16px;
+      background: linear-gradient(120deg,var(--accent),var(--accent-2));
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 50px rgba(56,189,248,.45);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      backdrop-filter: blur(10px);
+      transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: 0 40px 90px rgba(0,0,0,.5);
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 32px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 18px;
+      margin-right: 10px;
+      padding: 8px 18px;
+      font-size: 13px;
+      border-radius: 999px;
+      background: rgba(56,189,248,.15);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Case */
+    .case {
+      position: relative;
+      min-height: 260px;
+      display: flex;
+      align-items: flex-end;
+      cursor: pointer;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .case::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.75));
+      opacity: 0;
+      transition: opacity .4s ease;
+    }
+
+    .case span {
+      position: relative;
+      z-index: 2;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all .4s ease;
+    }
+
+    .case:hover::after { opacity: 1; }
+    .case:hover span { opacity: 1; transform: translateY(0); }
+
+    /* Footer */
+    footer {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 90px 0; }
+      header { position: sticky; }
+      .nav-links { gap: 18px; }
+      h1 { font-size: 40px; }
+    }
+    .case-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    a {
+    color: #38bdf8;
+    text-decoration: none;
+    position: relative;
+    }
+
+    a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+    }
+
+    a:hover::after {
+    width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">Portofolio</div>
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Expertise</a>
+      <a href="#works">Project</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-content" data-aos="fade-right">
+      <span class="hero-badge">Product • UI/UX • Digital</span>
+
+      <h1 class="hero-title">
+        Hi, I’m <span class="name typing" data-text="Lintang Adi Cahya Ramadhani"></span><br>
+        Product & UI/UX Designer crafting
+        <span class="gradient-text glow">impactful</span> digital experiences
+      </h1>
+
+      <p class="hero-desc">
+        Human-centered and research-driven, focused on solving real-world problems through functional and relevant digital solutions.
+      </p>
+
+      <div class="hero-action">
+        <a href="#works" class="cta">View Case Studies →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- decorative blur -->
+  <div class="hero-blur blur-1"></div>
+  <div class="hero-blur blur-2"></div>
+</section>
+
+
+<section id="about">
+    <div class="container">
+        <h2 data-aos="fade-up">About Me</h2>
+        <div class="grid">
+            <div class="card" data-aos="fade-up">
+                <p>
+                    I am a Product and UI/UX Designer focused on creating digital experiences that are simple, 
+                    functional, and aligned with real user needs. I combine user research, product thinking, 
+                    and visual design to deliver solutions that are both intuitive and impactful. With a strong 
+                    attention to clarity and usability, I aim to design products that not only look good but also 
+                    solve meaningful problems and support business goals.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="section">
+  <div class="section-blur cyan" style="bottom:-20%; right:-15%;"></div>
+
+  <div class="container">
+    <h2 data-aos="fade-up">Expertise</h2>
+    <div class="grid">
+      <div class="card" data-aos="fade-up">
+        <h4>UX & Product Thinking</h4>
+        <span class="tag">User Research</span>
+        <span class="tag">User Flow</span>
+        <span class="tag">Problem Solving</span>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="120">
+        <h4>UI & Visual Design</h4>
+        <span class="tag">Design System</span>
+        <span class="tag">Typography</span>
+        <span class="tag">Accessibility</span>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="240">
+        <h4>Tools</h4>
+        <span class="tag">Figma</span>
+        <span class="tag">Prototyping</span>
+        <span class="tag">Handoff</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="works" class="section">
+  <div class="section-blur blue" style="top:-30%; right:-20%;"></div>
+
+  <div class="container">
+    <h2 data-aos="fade-up">Project</h2>
+    <div class="grid">
+
+      <a href="foodorder.html" class="case-link" data-aos="fade-up">
+        <div class="card case" style="background-image:url('img/mocup.png');">
+          <span>Food Ordering App — UI/UX Case Study</span>
+        </div>
+      </a>
+
+      <a href="coffeeshop.html" class="case-link" data-aos="fade-up" data-aos-delay="140">
+        <div class="card case" style="background-image:url('img/Frame\ 15.png');">
+          <span>Coffee Shop Menu — UI/UX Redesign</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="contact" class="section">
+  <div class="section-blur cyan" style="bottom:-30%; left:-20%;"></div>
+
+  <div class="container">
+    <h2 data-aos="fade-up">Let’s Collaborate</h2>
+    <div class="card" data-aos="fade-up">
+        <p>Email: 
+        <a 
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=lintangadicr22@email.com"
+            target="_blank"
+            rel="noopener"
+        >
+            lintangadicr22@email.com
+        </a>
+        </p>
+
+        <p>Instagram: 
+        <a href="https://instagram.com/lintangadi._" target="_blank" rel="noopener">
+            @lintangadi._
+        </a>
+        </p>
+
+        <p>LinkedIn: 
+        <a href="https://www.linkedin.com/in/lintang-adi-cahya-ramadhani" target="_blank" rel="noopener">
+            Lintang Adi Cahya Ramadhani
+        </a>
+        </p>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  © 2025 Lintang — Product & UI/UX Designer
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once: true, easing: 'ease-out-cubic' });
+
+//   animasi ketik
+  const typingEl = document.querySelector('.typing');
+  const text = typingEl.dataset.text;
+  let index = 0;
+  let isTyping = false;
+
+  function startTyping() {
+    if (isTyping) return;
+    isTyping = true;
+    typingEl.textContent = '';
+    index = 0;
+    type();
+  }
+
+  function type() {
+    if (index < text.length) {
+      typingEl.textContent += text.charAt(index);
+      index++;
+      setTimeout(type, 80);
+    }
+  }
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        startTyping();
+      }
+    },
+    { threshold: 0.6 }
+  );
+
+  observer.observe(typingEl);
+
+
+  // mobile navbar toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+
+  // auto close setelah klik menu
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+    });
+  });
+
+</script>
+</body>
+</html>

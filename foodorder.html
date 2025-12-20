@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Ordering App — Case Study</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+  :root {
+    --bg: #0b0f1a;
+    --surface: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.12);
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-2: #22d3ee;
+    --radius: 22px;
+    --max: 1100px;
+  }
+
+  /* Reset */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background:
+      radial-gradient(900px 450px at 10% 10%, rgba(34,211,238,.18), transparent 40%),
+      radial-gradient(1000px 500px at 90% -10%, rgba(56,189,248,.18), transparent 45%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .container {
+    max-width: var(--max);
+    margin: auto;
+    padding: 0 24px;
+  }
+
+  section {
+    padding: 96px 0;
+    position: relative;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: clamp(40px, 6vw, 58px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  p {
+    color: var(--muted);
+    max-width: 720px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(18px);
+    background: rgba(11,15,26,.7);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+  }
+
+  .nav {
+    height: 72px;
+    display: flex;
+    align-items: center;
+  }
+
+  .back {
+    font-size: 14px;
+    color: var(--muted);
+    transition: all .25s ease;
+  }
+
+  .back:hover {
+    color: var(--text);
+    transform: translateX(-4px);
+  }
+
+  /* Hero */
+  .hero {
+    padding-top: 140px;
+  }
+
+  .hero h1 {
+    position: relative;
+  }
+
+  .hero h1::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(56,189,248,.35), transparent 70%);
+    top: -60px;
+    left: -60px;
+    z-index: -1;
+    filter: blur(40px);
+  }
+
+  .hero p {
+    margin-top: 18px;
+    font-size: 16px;
+  }
+
+  /* Meta */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .meta span {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .meta strong {
+    font-weight: 600;
+  }
+
+  /* Showcase */
+  .showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    margin-top: 88px;
+  }
+
+  .mockup {
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 16px;
+    max-width: 260px;
+    margin: auto;
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+
+  .mockup:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0,0,0,.45);
+  }
+
+  .mockup img {
+    width: 100%;
+    border-radius: 14px;
+  }
+
+  /* Content */
+  .content {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 56px;
+    margin-top: 96px;
+  }
+
+  .content h3 {
+    font-size: 13px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .content p {
+    max-width: 680px;
+  }
+
+  /* Scroll Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all .8s ease;
+  }
+
+  .reveal.show {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Footer */
+  footer {
+    padding: 56px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .content {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+  }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="back">← Back to Home</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>
+      Food Ordering App<br>
+      <span class="gradient-text">Mobile UI/UX Case Study</span>
+    </h1>
+
+    <p>
+      A mobile food ordering app designed to simplify daily meal ordering
+      and improve user efficiency.
+    </p>
+
+    <div class="meta">
+      <div>
+        <span>Role</span>
+        <strong>UI/UX Designer</strong>
+      </div>
+      <div>
+        <span>Platform</span>
+        <strong>Mobile App</strong>
+      </div>
+      <div>
+        <span>Duration</span>
+        <strong>4 Weeks</strong>
+      </div>
+      <div>
+        <span>Tools</span>
+        <strong>Figma</strong>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <div class="mockup"><img src="img/splashscreen.png" alt="Splash Screen"></div>
+      <div class="mockup"><img src="img/loginfoodorder.png" alt="Login Screen"></div>
+      <div class="mockup"><img src="img/registerfoodorder.png" alt="Register Screen"></div>
+      <div class="mockup"><img src="img/homefoodorder.png" alt="Home Screen"></div>
+      <div class="mockup"><img src="img/detailmenu.png" alt="Menu Detail"></div>
+      <div class="mockup"><img src="img/cekout.png" alt="Checkout Screen"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container content">
+    <h3>Problem</h3>
+    <p>
+      Many food ordering applications introduce unnecessary complexity at the earliest stages of use. 
+      Users often face friction during login and registration due to lengthy forms and unclear interfaces, 
+      which leads to early drop-off. In addition, the flow from browsing menus to checkout is frequently fragmented, 
+      causing confusion around pricing, delivery fees, and estimated delivery time. As a result, users struggle to 
+      complete orders efficiently and confidently.
+    </p>
+
+    <h3>Goal</h3>
+    <p>
+      The goal of the TasteNow project was to design a food ordering experience that feels simple, fast, and intuitive. 
+      The product aims to reduce user friction from the first interaction until payment completion, while maintaining 
+      a clean and modern visual style. Another key objective was to ensure users always understand where they are in the 
+      ordering process, how much they are paying, and when their food will arrive.
+    </p>
+
+    <h3>Process</h3>
+    <p>
+      The design process began with defining the core user flow, starting from splash and authentication screens, continuing 
+      through menu discovery and item selection, and ending at checkout and payment. Wireframes were created with a mobile-first 
+      approach, prioritizing a single-column layout, clear call-to-action placement, and easy thumb reachability. The interface 
+      design focused on clarity and consistency through the use of card-based layouts, readable typography, and a green color 
+      palette to convey freshness and food-related context. High-fidelity mockups were then developed to simulate real user 
+      scenarios, including pricing details, delivery costs, and payment options.
+    </p>
+
+    <h3>Solution</h3>
+    <p>
+      TasteNow delivers a streamlined food ordering experience by minimizing cognitive load and guiding users naturally through 
+      each step. The authentication screens are simple and welcoming, reducing barriers for new and returning users. The home 
+      screen presents categories and recommended menus in a structured and scannable format. Menu detail pages emphasize 
+      decision-making by highlighting food imagery, pricing, and concise descriptions. The checkout flow provides transparent 
+      information regarding address, delivery time estimation, shipping cost, and total payment, while the payment screen allows 
+      users to complete transactions in a single, focused interaction.
+    </p>
+
+    <h3>Reflection</h3>
+    <p>
+      This project reinforced the importance of designing experiences that prioritize clarity over feature quantity. Small details, 
+      such as delivery time estimation and price transparency, play a significant role in building user trust. A clean and 
+      consistent interface can make complex processes feel shorter and more manageable. If further iterations were to be developed, 
+      the product could be enhanced through order tracking features, improved empty and error states, and subtle micro-interactions 
+      to strengthen user feedback and engagement.
+    </p>
+  </div>
+</section>
+
+<footer>
+  © 2025 Lintang — UI/UX Designer
+</footer>
+<script>
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
