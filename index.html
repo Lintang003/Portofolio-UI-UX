@@ -166,14 +166,24 @@
     .hero-title { font-size: clamp(32px, 4.5vw, 52px); font-weight: 800; line-height: 1.25; letter-spacing: -0.015em; }
     .hero-desc { max-width: 560px; margin-top: 22px; font-size: 18px; }
     .hero-action .cta {
-      display: inline-flex; align-items: center; gap: 12px; margin-top: 36px;
-      padding: 16px 28px; border-radius: 16px;
-      background: linear-gradient(120deg,var(--accent),var(--accent-2));
-      color: #fff; font-weight: 600; text-decoration: none;
-      transition: transform .3s ease, box-shadow .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 36px;
+      padding: 16px 28px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0); /* transparan */
+      border: 2px solid var(--accent); /* border biru */
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
     }
-    .hero-action .cta:hover { transform: translateY(-4px); box-shadow: 0 22px 50px rgba(56,189,248,.45); }
-
+        .hero-action .cta:hover {
+      background: var(--accent); /* fill biru */
+      color: #fff; /* teks putih */
+      transform: scale(1.05);
+    }
     /* Section Blur */
     .section-blur { position: absolute; width: 380px; height: 380px; filter: blur(120px); opacity: .25; z-index: 0; }
     .section-blur.blue { background: #38bdf8; }
@@ -220,7 +230,7 @@
 
 <header>
   <div class="container nav">
-    <div class="logo">Portofolio</div>
+    <div class="logo">Lintang • UI/UX Designer</div>
     <div class="menu-toggle" id="menuToggle">☰</div>
     <div class="nav-links" id="navLinks">
       <a href="#home">Home</a>
@@ -245,7 +255,7 @@
         Human-centered and research-driven, focused on solving real-world problems through functional and relevant digital solutions.
       </p>
       <div class="hero-action">
-        <a href="#works" class="cta">View Case Studies →</a>
+        <a href="assets/CV_LINTANG ADI CAHYA RAMADHANI.pdf" class="cta" download>Download CV →</a>
       </div>
     </div>
   </div>
@@ -317,7 +327,7 @@
   <div class="container">
     <h2 data-aos="fade-up">Let’s Collaborate</h2>
     <div class="card-glass" data-aos="fade-up">
-      <p>Email: <a href="mailto:lintangadicr22@email.com">lintangadicr22@email.com</a></p>
+      <p>Email: <a href="mailto:lintangadicr22@gmail.com">lintangadicr22@gmail.com</a></p>
       <p>Instagram: <a href="https://instagram.com/lintangadi._" target="_blank" rel="noopener">@lintangadi._</a></p>
       <p>LinkedIn: <a href="https://www.linkedin.com/in/lintang-adi-cahya-ramadhani" target="_blank" rel="noopener">Lintang Adi Cahya Ramadhani</a></p>
     </div>
