@@ -208,6 +208,55 @@
       background: rgba(56,189,248,.15); color: var(--accent); font-weight: 500;
     }
 
+    /* Contact */
+    .contact-card {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 36px 24px;
+    }
+
+    .contact-card a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      transition: all .25s ease;
+    }
+
+    .contact-card a i {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+    }
+
+    .contact-card a span {
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+
+    .contact-card a:hover {
+      color: var(--accent);
+    }
+
+    .contact-card a:hover i {
+      border-color: var(--accent);
+      box-shadow: 0 14px 36px rgba(56,189,248,.35);
+      transform: translateY(-4px);
+    }
+    .contact-desc {
+      margin-top: 10px;
+      margin-bottom: 26px;
+      max-width: 560px;
+      line-height: 1.8;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
     /* Project Case */
     .case { position: relative; min-height: 260px; display: flex; align-items: flex-end; cursor: pointer; overflow: hidden; background-size: cover; background-position: center; border-radius: var(--radius); }
     .case::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, rgba(0,0,0,.75)); opacity: 0; transition: opacity .4s ease; }
@@ -322,12 +371,28 @@
 
 <section id="contact" class="section">
   <div class="section-blur cyan" style="bottom:-30%; left:-20%;"></div>
+
   <div class="container">
-    <h2 data-aos="fade-up">Let’s Collaborate</h2>
-    <div class="card-glass" data-aos="fade-up">
-      <p>Email: <a href="mailto:lintangadicr22@gmail.com">lintangadicr22@gmail.com</a></p>
-      <p>Instagram: <a href="https://instagram.com/lintangadi._" target="_blank" rel="noopener">@lintangadi._</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/lintang-adi-cahya-ramadhani" target="_blank" rel="noopener">Lintang Adi Cahya Ramadhani</a></p>
+    <h2 data-aos="fade-up">Contact Me</h2>
+    <p class="contact-desc" data-aos="fade-up">
+      Open for UI/UX design, product design, and collaboration opportunities.
+    </p>
+
+    <div class="contact-card card-glass" data-aos="fade-up">
+      <a href="mailto:lintangadicr22@gmail.com">
+        <i data-feather="mail"></i>
+        <span>Email</span>
+      </a>
+
+      <a href="https://instagram.com/lintangadi._" target="_blank">
+        <i data-feather="instagram"></i>
+        <span>Instagram</span>
+      </a>
+
+      <a href="https://www.linkedin.com/in/lintang-adi-cahya-ramadhani" target="_blank">
+        <i data-feather="linkedin"></i>
+        <span>LinkedIn</span>
+      </a>
     </div>
   </div>
 </section>
@@ -354,6 +419,10 @@
   const navLinks = document.getElementById('navLinks');
   menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
   document.querySelectorAll('.nav-links a').forEach(link=>{link.addEventListener('click',()=>{navLinks.classList.remove('active');});});
+</script>
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+  feather.replace();
 </script>
 
 </body>
