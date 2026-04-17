@@ -25,16 +25,21 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(900px 450px at 10% 10%, rgba(34,211,238,.18), transparent 40%),
-        radial-gradient(1000px 500px at 90% -10%, rgba(56,189,248,.18), transparent 45%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-    }
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(900px 450px at 10% 10%, rgba(34,211,238,.18), transparent 40%),
+    radial-gradient(1000px 500px at 90% -10%, rgba(56,189,248,.18), transparent 45%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
 
     .container { max-width: var(--max); margin: auto; padding: 0 24px; }
     section { padding: 80px 0; position: relative; }
@@ -87,31 +92,6 @@
       align-items: center;
       gap: 32px;
     }
-
-    @media (max-width: 1024px) {
-      .nav-links {
-        position: fixed;
-        top: 78px;
-        right: -100%; 
-        width: min(80vw, 320px);
-        max-width: 320px;
-        height: calc(100vh - 78px);
-        background: rgba(11,15,26,.98);
-        backdrop-filter: blur(18px);
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 32px;
-        gap: 24px;
-        border-left: 1px solid var(--border);
-        overflow-y: auto; 
-        transition: right 0.35s ease;
-        right: -100%;
-        box-sizing: border-box;
-      }
-      .nav-links.active { right: 0; }
-    }
-
-    body { overflow-x: hidden; }
 
     .nav-links a { color: var(--muted); font-weight: 500; }
     .nav-links a:hover { color: var(--text); }
@@ -188,6 +168,135 @@
     .section-blur.cyan { background: #b700ff1a; }
     .section > .container { position: relative; z-index: 2; }
 
+    /* ================= ABOUT LAYOUT ================= */
+    .about-flex {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 60px;
+    align-items: center;
+    }
+
+    /* ================= ABOUT VISUAL ================= */
+    .about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    padding-top: 80px;
+    }
+
+    /* Glow background */
+    .about-visual::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(56,189,248,.25), transparent 70%);
+    filter: blur(60px);
+    z-index: -1;
+    }
+
+    /* ================= LANYARD ================= */
+    .lanyard {
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0,15s ease-out;
+    }
+
+    /* depth layering */
+    .lanyard img {
+    transform: translateZ(40px);
+    }
+
+    .hook {
+    transform: translateX(-50%) translateZ(70px);
+    }
+
+    .lanyard::before,
+    .lanyard::after {
+    transform: translateZ(0px);
+    }
+
+    /* ================= CARD ================= */
+    .lanyard img {
+    width: 100%;
+    max-width: 240px;
+    border-radius: 16px;
+    position: relative;
+    z-index: 1;
+
+    /* shadow */
+    filter: drop-shadow(0 40px 80px rgba(0,0,0,.8));
+    box-shadow: 0 30px 60px rgba(0,0,0,.6);
+
+    /* animasi gabungan */
+    animation: swing 4s ease-in-out infinite, float 5s ease-in-out infinite;
+    transform-origin: top center;
+
+    /* interaksi */
+    transition: transform .4s ease;
+    }
+
+    /* hover */
+    .lanyard img:hover {
+    transform: translateY(-10px) rotate(-2deg) scale(1.03);
+    }
+
+    /* ================= ANIMATION ================= */
+    @keyframes swing {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(2deg); }
+    50%  { transform: rotate(0deg); }
+    75%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+    }
+
+    @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-12px); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+    .about-flex {
+        grid-template-columns: 1fr;
+    }
+
+    .about-visual img {
+        max-width: 200px;
+    }}
+
+    /* ================= 3D TILT ================= */
+    .lanyard {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease;
+    will-change: transform;
+    }
+
+    /* card */
+    .lanyard img {
+    width: 240px;
+    border-radius: 16px;
+    display: block;
+
+    transform: translateZ(40px);
+    box-shadow: 0 40px 80px rgba(0,0,0,.7);
+
+    transform-origin: top center;
+    animation: swing 4s ease-in-out infinite;
+    }
+
+    /* hook lebih dekat (depth beda) */
+    .hook {
+    transform: translateX(-50%) translateZ(60px);
+    }
+
+    /* hover smooth feel */
+    .lanyard:hover {
+    transition: transform 0.1s ease;
+    }
     /* Card Glass */
     .card-glass {
       background: rgba(255, 255, 255, 0.08);
@@ -313,12 +422,27 @@
 <section id="about">
   <div class="container">
     <h2 data-aos="fade-up">About Me</h2>
-    <div class="grid">
-      <div class="card-glass" data-aos="fade-up">
+
+    <div class="about-flex">
+
+      <!-- TEXT -->
+      <div class="card-glass about-text" data-aos="fade-right">
         <p>
-          I’m an aspiring UI/UX Designer with a strong interest in creating simple and user-friendly digital experiences. I enjoy learning and applying user research, product thinking, and visual design to build interfaces that are intuitive and useful.
+          I’m an aspiring UI/UX Designer with a strong interest in creating simple 
+          and user-friendly digital experiences. I enjoy learning and applying user 
+          research, product thinking, and visual design to build interfaces that are 
+          intuitive and useful.
         </p>
       </div>
+
+      <!-- LANYARD -->
+      <div class="about-visual" data-aos="fade-left">
+        <div class="lanyard">
+          <div class="hook"></div>
+          <img src="img/IdCard.png" alt="Lanyard ID Card">
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -424,6 +548,51 @@
 <script>
   feather.replace();
 </script>
+<script>
+const lanyard = document.querySelector('.lanyard');
 
+lanyard.addEventListener('mousemove', (e) => {
+  const rect = lanyard.getBoundingClientRect();
+
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
+  const rotateX = ((y - centerY) / centerY) * -12;
+  const rotateY = ((x - centerX) / centerX) * 12;
+
+  const depthX = (x - centerX) / 25;
+  const depthY = (y - centerY) / 25;
+
+  lanyard.style.transform = `
+    rotateX(${rotateX}deg)
+    rotateY(${rotateY}deg)
+  `;
+
+  // gerakin isi (parallax depth)
+  lanyard.querySelector('img').style.transform = `
+    translateZ(40px)
+    translateX(${depthX}px)
+    translateY(${depthY}px)
+  `;
+
+  lanyard.querySelector('.hook').style.transform = `
+    translateX(-50%)
+    translateZ(70px)
+    translateX(${depthX * 1.5}px)
+    translateY(${depthY * 1.5}px)
+  `;
+});
+
+/* balik normal */
+lanyard.addEventListener('mouseleave', () => {
+  lanyard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+
+  lanyard.querySelector('img').style.transform = 'translateZ(40px)';
+  lanyard.querySelector('.hook').style.transform = 'translateX(-50%) translateZ(70px)';
+});
+</script>
 </body>
 </html>
