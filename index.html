@@ -1,598 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lintang — Product & UI/UX Designer</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Lintang Adi — Product & UI/UX Designer</title>
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #0b0f1a;
-      --surface: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.12);
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-2: #22d3ee;
-      --radius: 22px;
-      --max: 1200px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  max-width: 100%;
+<style>
+:root{
+  --bg:#09090d;
+  --surface:rgba(255,255,255,.045);
+  --surface-strong:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.10);
+  --text:#f1f1f4;
+  --muted:#8c8f9d;
+  --accent:#8b7cff;
+  --accent-soft:rgba(139,124,255,.16);
+  --mint:#4ade80;
+  --radius:18px;
+  --max:1180px;
+  color-scheme: dark;
+}
+:root[data-theme="light"]{
+  --bg:#f6f5f2;
+  --surface:rgba(9,9,13,.035);
+  --surface-strong:rgba(9,9,13,.055);
+  --border:rgba(9,9,13,.10);
+  --text:#15151a;
+  --muted:#6b6d7a;
+  --accent:#5b46e8;
+  --accent-soft:rgba(91,70,232,.12);
+  --mint:#16a34a;
+  color-scheme: light;
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background:
-    radial-gradient(900px 450px at 10% 10%, rgba(34,211,238,.18), transparent 40%),
-    radial-gradient(1000px 500px at 90% -10%, rgba(56,189,248,.18), transparent 45%),
-    var(--bg);
-  color: var(--text);
-  line-height: 1.7;
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
 }
 
-    .container { max-width: var(--max); margin: auto; padding: 0 24px; }
-    section { padding: 80px 0; position: relative; }
-    h1,h2,h3,h4 { line-height: 1.15; }
-    h1 { font-size: clamp(44px, 6vw, 72px); font-weight: 900; letter-spacing: -0.02em; }
-    h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 56px; font-weight: 800; }
-    p { color: var(--muted); }
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden;
+  transition:background .35s ease, color .35s ease;
+  padding-top:env(safe-area-inset-top,0px);
+}
 
-    .gradient-text {
-      background: linear-gradient(120deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; line-height:1.15; letter-spacing:-.01em}
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      position: relative;
-    }
-    a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 0;
-      height: 2px;
-      background: currentColor;
-      transition: width 0.3s ease;
-    }
-    a:hover::after { width: 100%; }
+.container{max-width:var(--max); margin:auto; padding:0 24px}
+section{padding:120px 0; position:relative}
+a{color:inherit; text-decoration:none}
+p{color:var(--muted)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
 
-    /* Header */
-    header {
-      position: fixed;
-      inset: 0 0 auto 0;
-      backdrop-filter: blur(18px);
-      background: rgba(11,15,26,.75);
-      border-bottom: 1px solid var(--border);
-      z-index: 1000;
-    }
-    .nav {
-      height: 78px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo { font-weight: 900; letter-spacing: .5px; }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
+/* scroll progress */
+.progress{position:fixed; top:0; left:0; height:3px; width:0%; background:var(--accent); z-index:2000; transition:width .1s linear}
 
-    .nav-links a { color: var(--muted); font-weight: 500; }
-    .nav-links a:hover { color: var(--text); }
+/* cursor glow */
+.glow{
+  position:fixed; width:460px; height:460px; border-radius:50%;
+  pointer-events:none; z-index:1;
+  background:radial-gradient(circle, var(--accent-soft), transparent 65%);
+  filter:blur(10px);
+  transform:translate(-50%,-50%);
+  opacity:0; transition:opacity .3s ease;
+}
+@media (hover:hover) and (pointer:fine){ .glow.on{opacity:1} }
 
-    .menu-toggle { display: none; font-size: 26px; cursor: pointer; }
-    @media (max-width: 1024px) {
-      .menu-toggle { display: block; }
-      .nav-links {
-        position: fixed;
-        top: 78px;
-        right: -100%;
-        width: min(80vw, 320px);
-        height: calc(100vh - 78px);
-        background: rgba(11,15,26,.98);
-        backdrop-filter: blur(18px);
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 32px;
-        gap: 24px;
-        border-left: 1px solid var(--border);
-        transition: right .35s ease;
-        will-change: transform;
-        z-index: 999;
-      }
-      .nav-links.active { right: 0; }
-    }
+/* header */
+header{
+  position:fixed; inset:0 0 auto 0; z-index:1000;
+  padding-top:env(safe-area-inset-top,0px);
+  background:color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav{height:72px; display:flex; align-items:center; justify-content:space-between; gap:16px}
+.logo{font-family:'Space Grotesk'; font-weight:700; font-size:15px; letter-spacing:-.01em}
+.logo span{color:var(--accent)}
+.nav-links{display:flex; align-items:center; gap:30px}
+.nav-links a{color:var(--muted); font-size:14px; font-weight:500; transition:color .2s ease}
+.nav-links a:hover, .nav-links a.active{color:var(--text)}
+.nav-tools{display:flex; align-items:center; gap:10px}
 
-    /* Hero */
-    .hero { min-height: 100vh; display: grid; align-items: center; }
-    .hero-content { position: relative; z-index: 2; }
-    .typing::after {
-      content: '|';
-      margin-left: 4px;
-      animation: blink 1s infinite;
-      color: var(--accent);
-    }
-    @keyframes blink { 0%,50%,100% { opacity: 1; } 25%,75% { opacity: 0; } }
+.icon-btn{
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--border);
+  background:var(--surface); display:grid; place-items:center; cursor:pointer; color:var(--text);
+  transition:border-color .2s ease, transform .2s ease;
+}
+.icon-btn:hover{border-color:var(--accent); transform:translateY(-2px)}
+.icon-btn svg{width:17px; height:17px}
 
-    .hero-badge {
-      display: inline-block;
-      margin-bottom: 18px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent);
-      background: rgba(56,189,248,.15);
-      border: 1px solid var(--border);
-    }
-    .hero-title { font-size: clamp(32px, 4.5vw, 52px); font-weight: 800; line-height: 1.25; letter-spacing: -0.015em; }
-    .hero-desc { max-width: 560px; margin-top: 22px; font-size: 18px; }
-    .hero-action .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 36px;
-      padding: 16px 28px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0); 
-      border: 2px solid var(--accent); 
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-        .hero-action .cta:hover {
-      background: var(--accent); 
-      color: #fff; 
-      transform: scale(1.05);
-    }
-    /* Section Blur */
-    .section-blur { position: absolute; width: 380px; height: 380px; filter: blur(120px); opacity: .25; z-index: 0; }
-    .section-blur.blue { background: #38bdf8; }
-    .section-blur.cyan { background: #b700ff1a; }
-    .section > .container { position: relative; z-index: 2; }
+.menu-toggle{display:none}
+@media(max-width:880px){
+  .nav-links{
+    position:fixed; top:0; right:-100%; height:100vh; width:min(78vw,320px);
+    background:var(--bg); border-left:1px solid var(--border);
+    flex-direction:column; align-items:flex-start; justify-content:center;
+    gap:26px; padding:32px; transition:right .35s ease; z-index:999;
+  }
+  .nav-links.active{right:0}
+  .nav-links a{font-size:18px}
+  .menu-toggle{display:grid; place-items:center}
+}
 
-    /* ================= ABOUT LAYOUT ================= */
-    .about-flex {
-    display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 60px;
-    align-items: center;
-    }
+/* hero */
+.hero{min-height:100vh; display:flex; align-items:center; padding-top:96px}
+.hero-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:60px; align-items:center; width:100%}
+.status-pill{
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid var(--border); background:var(--surface);
+  padding:7px 14px 7px 10px; border-radius:999px; font-size:13px; color:var(--muted);
+  margin-bottom:28px;
+}
+.status-dot{width:7px; height:7px; border-radius:50%; background:var(--mint); box-shadow:0 0 0 3px color-mix(in srgb, var(--mint) 20%, transparent); flex:none}
 
-    /* ================= ABOUT VISUAL ================= */
-    .about-visual {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    padding-top: 80px;
-    }
+.hero h1{font-size:clamp(36px,5.2vw,58px); font-weight:600; max-width:14ch}
+.hero h1 em{
+  font-style:normal; color:var(--accent);
+}
+.hero-desc{margin-top:22px; max-width:46ch; font-size:17px}
+.hero-actions{display:flex; gap:14px; margin-top:36px; flex-wrap:wrap}
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:14px 24px; border-radius:12px; font-weight:600; font-size:14px;
+  transition:transform .25s ease, background .25s ease, border-color .25s ease;
+  border:1px solid transparent;
+}
+.btn-primary{background:var(--accent); color:#fff}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{border-color:var(--border); color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent); transform:translateY(-2px)}
 
-    /* Glow background */
-    .about-visual::before {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(56,189,248,.25), transparent 70%);
-    filter: blur(60px);
-    z-index: -1;
-    }
+.hero-panel{
+  border:1px solid var(--border); background:var(--surface); border-radius:22px; padding:26px;
+}
+.hero-panel .clock{font-family:'Space Grotesk'; font-size:34px; font-weight:600}
+.hero-panel .tz{font-size:13px; color:var(--muted); margin-top:4px}
+.hero-panel hr{border:none; border-top:1px solid var(--border); margin:20px 0}
+.hero-panel .row{display:flex; justify-content:space-between; font-size:13px; padding:6px 0; color:var(--muted)}
+.hero-panel .row b{color:var(--text); font-weight:600}
 
-    /* ================= LANYARD ================= */
-    .lanyard {
-    position: relative;
-    transform-style: preserve-3d;
-    will-change: transform;
-    transition: transform 0,15s ease-out;
-    }
+@media(max-width:900px){ .hero-grid{grid-template-columns:1fr} .hero-panel{order:-1; max-width:340px} }
 
-    /* depth layering */
-    .lanyard img {
-    transform: translateZ(40px);
-    }
+/* strip */
+.strip{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:26px 0}
+.strip .container{display:flex; flex-wrap:wrap; gap:34px; justify-content:space-between}
+.strip-item{font-size:13px; color:var(--muted)}
+.strip-item b{display:block; font-family:'Space Grotesk'; color:var(--text); font-size:16px; font-weight:600; margin-top:2px}
 
-    .hook {
-    transform: translateX(-50%) translateZ(70px);
-    }
+.eyebrow{font-size:13px; color:var(--accent); font-weight:600; margin-bottom:10px}
+.sec-head{max-width:56ch; margin-bottom:56px}
+.sec-head h2{font-size:clamp(26px,3.4vw,36px); font-weight:600}
+.sec-head p{margin-top:14px; font-size:16px}
 
-    .lanyard::before,
-    .lanyard::after {
-    transform: translateZ(0px);
-    }
+/* about */
+.about-grid{display:grid; grid-template-columns:.8fr 1.2fr; gap:56px}
+.about-grid p{font-size:17px; max-width:60ch}
+.chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px}
+.chip{border:1px solid var(--border); background:var(--surface); padding:8px 14px; border-radius:999px; font-size:13px; color:var(--muted)}
+@media(max-width:860px){ .about-grid{grid-template-columns:1fr} }
 
-    /* ================= CARD ================= */
-    .lanyard img {
-    width: 100%;
-    max-width: 240px;
-    border-radius: 16px;
-    position: relative;
-    z-index: 1;
+/* expertise */
+.exp-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:22px}
+.exp-card{border:1px solid var(--border); background:var(--surface); border-radius:var(--radius); padding:30px; transition:border-color .25s ease, transform .25s ease}
+.exp-card:hover{border-color:var(--accent); transform:translateY(-4px)}
+.exp-card h4{font-size:18px; font-weight:600; margin-bottom:14px}
+.exp-card ul{list-style:none; display:flex; flex-direction:column; gap:8px}
+.exp-card li{font-size:14px; color:var(--muted); padding-left:16px; position:relative}
+.exp-card li::before{content:''; position:absolute; left:0; top:9px; width:5px; height:5px; border-radius:50%; background:var(--accent)}
+@media(max-width:860px){ .exp-grid{grid-template-columns:1fr} }
 
-    /* shadow */
-    filter: drop-shadow(0 40px 80px rgba(0,0,0,.8));
-    box-shadow: 0 30px 60px rgba(0,0,0,.6);
+/* work */
+.work-grid{display:grid; grid-template-columns:1fr 1fr; gap:26px}
+.work-card{
+  border:1px solid var(--border); border-radius:22px; overflow:hidden;
+  background:var(--surface); display:flex; flex-direction:column;
+  transition:border-color .3s ease, transform .3s ease;
+  opacity:0; transform:translateY(18px);
+}
+.work-card.in{opacity:1; transform:translateY(0); transition:opacity .6s ease, transform .6s ease, border-color .3s ease}
+.work-card:hover{border-color:var(--accent)}
+.work-thumb{
+  aspect-ratio:16/10; background-size:cover; background-position:center;
+  position:relative;
+}
+.work-body{padding:26px}
+.work-tags{display:flex; gap:8px; margin-bottom:14px}
+.work-tags span{font-size:12px; color:var(--accent); background:var(--accent-soft); padding:4px 10px; border-radius:999px}
+.work-body h3{font-size:20px; font-weight:600}
+.work-body p{margin-top:8px; font-size:14px}
+.work-link{display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-size:14px; font-weight:600; color:var(--text)}
+.work-link svg{width:15px; height:15px; transition:transform .25s ease}
+.work-card:hover .work-link svg{transform:translate(3px,-3px)}
+@media(max-width:860px){ .work-grid{grid-template-columns:1fr} }
 
-    /* animasi gabungan */
-    animation: swing 4s ease-in-out infinite, float 5s ease-in-out infinite;
-    transform-origin: top center;
+/* contact */
+.contact-card{
+  border:1px solid var(--border); background:var(--surface); border-radius:26px;
+  padding:48px; display:flex; justify-content:space-between; align-items:center; gap:30px; flex-wrap:wrap;
+}
+.contact-card h3{font-size:24px; font-weight:600; max-width:24ch}
+.contact-links{display:flex; gap:12px; flex-wrap:wrap}
+.contact-links a{
+  display:inline-flex; align-items:center; gap:9px; border:1px solid var(--border);
+  padding:11px 18px; border-radius:12px; font-size:14px; font-weight:600; transition:.2s ease;
+}
+.contact-links a:hover{border-color:var(--accent); color:var(--accent)}
+.contact-links svg{width:16px; height:16px}
 
-    /* interaksi */
-    transition: transform .4s ease;
-    }
+footer{border-top:1px solid var(--border); padding:40px 0; text-align:center; font-size:13px; color:var(--muted)}
 
-    /* hover */
-    .lanyard img:hover {
-    transform: translateY(-10px) rotate(-2deg) scale(1.03);
-    }
-
-    /* ================= ANIMATION ================= */
-    @keyframes swing {
-    0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(2deg); }
-    50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(-2deg); }
-    100% { transform: rotate(0deg); }
-    }
-
-    @keyframes float {
-    0%,100% { transform: translateY(0); }
-    50%     { transform: translateY(-12px); }
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-    .about-flex {
-        grid-template-columns: 1fr;
-    }
-
-    .about-visual img {
-        max-width: 200px;
-    }}
-
-    /* ================= 3D TILT ================= */
-    .lanyard {
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.2s ease;
-    will-change: transform;
-    }
-
-    /* card */
-    .lanyard img {
-    width: 240px;
-    border-radius: 16px;
-    display: block;
-
-    transform: translateZ(40px);
-    box-shadow: 0 40px 80px rgba(0,0,0,.7);
-
-    transform-origin: top center;
-    animation: swing 4s ease-in-out infinite;
-    }
-
-    /* hook lebih dekat (depth beda) */
-    .hook {
-    transform: translateX(-50%) translateZ(60px);
-    }
-
-    /* hover smooth feel */
-    .lanyard:hover {
-    transition: transform 0.1s ease;
-    }
-    /* Card Glass */
-    .card-glass {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: var(--radius);
-      padding: 36px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-    .card-glass:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.3); border-color: var(--accent); }
-
-    /* Grid */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 32px; }
-    .tag {
-      display: inline-block; margin-top: 18px; margin-right: 10px;
-      padding: 8px 18px; font-size: 13px; border-radius: 999px;
-      background: rgba(56,189,248,.15); color: var(--accent); font-weight: 500;
-    }
-
-    /* Contact */
-    .contact-card {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      padding: 36px 24px;
-    }
-
-    .contact-card a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted);
-      transition: all .25s ease;
-    }
-
-    .contact-card a i {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      display: grid;
-      place-items: center;
-    }
-
-    .contact-card a span {
-      font-size: 13px;
-      letter-spacing: .02em;
-    }
-
-    .contact-card a:hover {
-      color: var(--accent);
-    }
-
-    .contact-card a:hover i {
-      border-color: var(--accent);
-      box-shadow: 0 14px 36px rgba(56,189,248,.35);
-      transform: translateY(-4px);
-    }
-    .contact-desc {
-      margin-top: 10px;
-      margin-bottom: 26px;
-      max-width: 560px;
-      line-height: 1.8;
-      font-size: 16px;
-      color: var(--muted);
-    }
-
-    /* Project Case */
-    .case { position: relative; min-height: 260px; display: flex; align-items: flex-end; cursor: pointer; overflow: hidden; background-size: cover; background-position: center; border-radius: var(--radius); }
-    .case::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, rgba(0,0,0,.75)); opacity: 0; transition: opacity .4s ease; }
-    .case span { position: relative; z-index: 2; font-weight: 600; opacity: 0; padding: 16px 20px; transform: translateY(10px); transition: all .4s ease; }
-    .case:hover::after { opacity: 1; }
-    .case-link {display: block; text-decoration: none;}
-    .case:hover span { opacity: 1; transform: translateY(0); }
-
-    footer { padding: 64px 0; border-top: 1px solid var(--border); text-align: center; font-size: 14px; color: var(--muted); }
-
-    /* Responsive */
-    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 600px) { section { padding: 90px 0; } header { position: sticky; } .nav-links { gap: 18px; } h1 { font-size: 40px; } }
-
-  </style>
+.reveal{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1; transform:none}
+</style>
 </head>
 <body>
 
+<div class="progress" id="progress"></div>
+<div class="glow" id="glow"></div>
+
 <header>
   <div class="container nav">
-    <div class="logo">Lintang • UI/UX Designer</div>
-    <div class="menu-toggle" id="menuToggle">☰</div>
+    <a class="logo" href="#home">Lintang Adi <span>·</span> Designer</a>
     <div class="nav-links" id="navLinks">
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#skills">Expertise</a>
-      <a href="#works">Project</a>
+      <a href="#works">Work</a>
       <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-tools">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle light and dark theme">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v1M12 20v1M4.2 4.2l.7.7M19.1 19.1l.7.7M3 12h1M20 12h1M4.2 19.8l.7-.7M19.1 4.9l.7-.7"/><circle cx="12" cy="12" r="4.5"/></svg>
+      </button>
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </header>
 
 <section class="hero" id="home">
   <div class="container hero-grid">
-    <div class="hero-content" data-aos="fade-right">
-      <span class="hero-badge">Product • UI/UX • Digital</span>
-      <h1 class="hero-title">
-        Hi, I’m <span class="name typing" data-text="Lintang Adi Cahya Ramadhani"></span><br>
-        Product & UI/UX Designer crafting
-        <span class="gradient-text glow">impactful</span> digital experiences
-      </h1>
-      <p class="hero-desc">
-        Human-centered and research-driven, focused on solving real-world problems through functional and relevant digital solutions.
-      </p>
-      <div class="hero-action">
-        <a href="Assets/CV_LINTANG_ADI_CAHYA_RAMADHANI.pdf" class="cta" download>Download CV →</a>
+    <div>
+      <div class="status-pill"><span class="status-dot"></span> Open for freelance & collaboration</div>
+      <h1>Product & UI/UX design, built around <em>real</em> user problems.</h1>
+      <p class="hero-desc">I'm Lintang — a human-centered, research-driven designer who turns messy flows into interfaces people actually enjoy using.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="assets/CV_LINTANG ADI CAHYA RAMADHANI.pdf" download>Download CV</a>
+        <a class="btn btn-ghost" href="#works">View my work</a>
       </div>
     </div>
+    <div class="hero-panel">
+      <div class="clock" id="clock">--:--</div>
+      <div class="tz">Klaten, Indonesia · WIB</div>
+      <hr>
+      <div class="row"><span>Role</span><b>UI/UX Designer</b></div>
+      <div class="row"><span>Focus</span><b>Mobile & Product</b></div>
+      <div class="row"><span>Tool</span><b>Figma</b></div>
+    </div>
   </div>
-  <div class="hero-blur blur-1"></div>
-  <div class="hero-blur blur-2"></div>
 </section>
+
+<div class="strip">
+  <div class="container">
+    <div class="strip-item">Case studies<b>2 shipped</b></div>
+    <div class="strip-item">Based in<b>Klaten, ID</b></div>
+    <div class="strip-item">Core tool<b>Figma</b></div>
+    <div class="strip-item">Approach<b>Research-first</b></div>
+  </div>
+</div>
 
 <section id="about">
-  <div class="container">
-    <h2 data-aos="fade-up">About Me</h2>
-
-    <div class="about-flex">
-
-      <!-- TEXT -->
-      <div class="card-glass about-text" data-aos="fade-right">
-        <p>
-          I’m an aspiring UI/UX Designer with a strong interest in creating simple 
-          and user-friendly digital experiences. I enjoy learning and applying user 
-          research, product thinking, and visual design to build interfaces that are 
-          intuitive and useful.
-        </p>
+  <div class="container about-grid">
+    <div>
+      <div class="eyebrow">About</div>
+      <h2>Grounded in research, shaped by iteration.</h2>
+    </div>
+    <div>
+      <p>I'm an aspiring UI/UX designer with a strong interest in creating simple, user-friendly digital experiences. I enjoy applying user research, product thinking, and visual design to build interfaces that are intuitive and genuinely useful — not just good-looking.</p>
+      <div class="chips">
+        <span class="chip">User Research</span>
+        <span class="chip">Wireframing</span>
+        <span class="chip">Design Systems</span>
+        <span class="chip">Prototyping</span>
+        <span class="chip">Accessibility</span>
       </div>
-
-      <!-- LANYARD -->
-      <div class="about-visual" data-aos="fade-left">
-        <div class="lanyard">
-          <div class="hook"></div>
-          <img src="img/IdCard.png" alt="Lanyard ID Card">
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
 
-<section id="skills" class="section">
-  <div class="section-blur cyan" style="bottom:-20%; right:-15%;"></div>
+<section id="skills">
   <div class="container">
-    <h2 data-aos="fade-up">Expertise</h2>
-    <div class="grid">
-      <div class="card-glass" data-aos="fade-up">
+    <div class="sec-head">
+      <div class="eyebrow">Expertise</div>
+      <h2>What I bring to a project</h2>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card">
         <h4>UX & Product Thinking</h4>
-        <span class="tag">User Research</span>
-        <span class="tag">User Flow</span>
-        <span class="tag">Problem Solving</span>
+        <ul><li>User research & interviews</li><li>User flows & journey mapping</li><li>Problem framing</li></ul>
       </div>
-      <div class="card-glass" data-aos="fade-up" data-aos-delay="120">
+      <div class="exp-card">
         <h4>UI & Visual Design</h4>
-        <span class="tag">Design System</span>
-        <span class="tag">Typography</span>
-        <span class="tag">Accessibility</span>
+        <ul><li>Design systems</li><li>Typography & layout</li><li>Accessible color & contrast</li></ul>
       </div>
-      <div class="card-glass" data-aos="fade-up" data-aos-delay="240">
-        <h4>Tools</h4>
-        <span class="tag">Figma</span>
-        <span class="tag">Prototyping</span>
-        <span class="tag">Handoff</span>
+      <div class="exp-card">
+        <h4>Tools & Handoff</h4>
+        <ul><li>Figma</li><li>Interactive prototyping</li><li>Dev handoff</li></ul>
       </div>
     </div>
   </div>
 </section>
 
-<section id="works" class="section">
-  <div class="section-blur blue" style="top:-30%; right:-20%;"></div>
+<section id="works">
   <div class="container">
-    <h2 data-aos="fade-up">Project</h2>
-    <div class="grid">
-      <a href="foodorder.html" class="case-link" data-aos="fade-up">
-        <div class="card case" style="background-image:url('img/mocup.png');">
-          <span>Food Ordering App — UI/UX Case Study</span>
+    <div class="sec-head">
+      <div class="eyebrow">Selected work</div>
+      <h2>Case studies</h2>
+    </div>
+    <div class="work-grid">
+      <a class="work-card reveal" href="foodorder.html">
+        <div class="work-thumb" style="background-image:url('img/mocup.png'), linear-gradient(135deg,#2a1f5c,#0d0b16)"></div>
+        <div class="work-body">
+          <div class="work-tags"><span>Mobile App</span><span>4 Weeks</span></div>
+          <h3>Food Ordering App</h3>
+          <p>Reducing friction across login, browsing, and checkout for a daily meal-ordering flow.</p>
+          <span class="work-link">View case study
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </span>
         </div>
       </a>
-      <a href="coffeeshop.html" class="case-link" data-aos="fade-up" data-aos-delay="140">
-        <div class="card case" style="background-image:url('img/Frame 15.png');">
-          <span>Coffee Shop Menu — UI/UX Redesign</span>
+      <a class="work-card reveal" href="coffeeshop.html">
+        <div class="work-thumb" style="background-image:url('img/Frame 15.png'), linear-gradient(135deg,#1c3a4a,#0d0b16)"></div>
+        <div class="work-body">
+          <div class="work-tags"><span>Mobile Web</span><span>1 Day</span></div>
+          <h3>Coffee Shop Menu</h3>
+          <p>A mobile-first QR menu redesign built for faster, staff-free ordering in-store.</p>
+          <span class="work-link">View case study
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </span>
         </div>
       </a>
     </div>
   </div>
 </section>
 
-<section id="contact" class="section">
-  <div class="section-blur cyan" style="bottom:-30%; left:-20%;"></div>
-
+<section id="contact">
   <div class="container">
-    <h2 data-aos="fade-up">Contact Me</h2>
-    <p class="contact-desc" data-aos="fade-up">
-      Open for UI/UX design, product design, and collaboration opportunities.
-    </p>
-
-    <div class="contact-card card-glass" data-aos="fade-up">
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lintangadicr22@gmail.com" target="_blank">
-        <i data-feather="mail"></i>
-        <span>Email</span>
-      </a>
-
-      <a href="https://instagram.com/lintangadi._" target="_blank">
-        <i data-feather="instagram"></i>
-        <span>Instagram</span>
-      </a>
-
-      <a href="https://www.linkedin.com/in/lintang-adi-cahya-ramadhani" target="_blank">
-        <i data-feather="linkedin"></i>
-        <span>LinkedIn</span>
-      </a>
+    <div class="contact-card">
+      <div>
+        <div class="eyebrow">Contact</div>
+        <h3>Open for UI/UX design, product design, and collaboration opportunities.</h3>
+      </div>
+      <div class="contact-links">
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lintangadicr22@gmail.com" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg> Email
+        </a>
+        <a href="https://instagram.com/lintangadi._" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg> Instagram
+        </a>
+        <a href="https://www.linkedin.com/in/lintang-adi-cahya-ramadhani" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="11" x2="8" y2="16"/><line x1="8" y1="8" x2="8" y2="8"/><path d="M12 16v-3a2 2 0 0 1 4 0v3"/></svg> LinkedIn
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-<footer>
-  © 2025 Lintang — Product & UI/UX Designer
-</footer>
+<footer>© 2026 Lintang Adi — Product & UI/UX Designer</footer>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  AOS.init({ duration: 1000, once: true, easing: 'ease-out-cubic' });
-
-  // Typing animation
-  const typingEl = document.querySelector('.typing');
-  const text = typingEl.dataset.text;
-  let index = 0, isTyping = false;
-  function startTyping() { if(isTyping) return; isTyping=true; typingEl.textContent=''; index=0; type(); }
-  function type() { if(index<text.length){ typingEl.textContent+=text.charAt(index); index++; setTimeout(type,80); } }
-  const observer = new IntersectionObserver(([entry]) => { if(entry.isIntersecting) startTyping(); }, { threshold:0.6 });
-  observer.observe(typingEl);
-
-  // Mobile navbar toggle
-  const menuToggle = document.getElementById('menuToggle');
-  const navLinks = document.getElementById('navLinks');
-  menuToggle.addEventListener('click',()=>{navLinks.classList.toggle('active');});
-  document.querySelectorAll('.nav-links a').forEach(link=>{link.addEventListener('click',()=>{navLinks.classList.remove('active');});});
-</script>
-<script src="https://unpkg.com/feather-icons"></script>
-<script>
-  feather.replace();
-</script>
-<script>
-const lanyard = document.querySelector('.lanyard');
-
-lanyard.addEventListener('mousemove', (e) => {
-  const rect = lanyard.getBoundingClientRect();
-
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  const centerX = rect.width / 2;
-  const centerY = rect.height / 2;
-
-  const rotateX = ((y - centerY) / centerY) * -12;
-  const rotateY = ((x - centerX) / centerX) * 12;
-
-  const depthX = (x - centerX) / 25;
-  const depthY = (y - centerY) / 25;
-
-  lanyard.style.transform = `
-    rotateX(${rotateX}deg)
-    rotateY(${rotateY}deg)
-  `;
-
-  // gerakin isi (parallax depth)
-  lanyard.querySelector('img').style.transform = `
-    translateZ(40px)
-    translateX(${depthX}px)
-    translateY(${depthY}px)
-  `;
-
-  lanyard.querySelector('.hook').style.transform = `
-    translateX(-50%)
-    translateZ(70px)
-    translateX(${depthX * 1.5}px)
-    translateY(${depthY * 1.5}px)
-  `;
+// theme toggle
+const root=document.documentElement;
+const themeToggle=document.getElementById('themeToggle');
+const saved=localStorage.getItem('theme');
+if(saved) root.setAttribute('data-theme',saved);
+themeToggle.addEventListener('click',()=>{
+  const cur=root.getAttribute('data-theme')==='light'?'dark':'light';
+  if(cur==='light'){root.setAttribute('data-theme','light'); localStorage.setItem('theme','light');}
+  else{root.removeAttribute('data-theme'); localStorage.setItem('theme','dark');}
 });
 
-/* balik normal */
-lanyard.addEventListener('mouseleave', () => {
-  lanyard.style.transform = 'rotateX(0deg) rotateY(0deg)';
-
-  lanyard.querySelector('img').style.transform = 'translateZ(40px)';
-  lanyard.querySelector('.hook').style.transform = 'translateX(-50%) translateZ(70px)';
+// scroll progress
+const progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  progress.style.width=pct+'%';
 });
+
+// cursor glow
+const glow=document.getElementById('glow');
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  document.addEventListener('mousemove',e=>{
+    glow.classList.add('on');
+    glow.style.left=e.clientX+'px';
+    glow.style.top=e.clientY+'px';
+  });
+}
+
+// mobile nav
+const menuToggle=document.getElementById('menuToggle');
+const navLinks=document.getElementById('navLinks');
+menuToggle.addEventListener('click',()=>navLinks.classList.toggle('active'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('active')));
+
+// scrollspy
+const sections=document.querySelectorAll('section[id]');
+const navA=document.querySelectorAll('.nav-links a');
+const spy=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      navA.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+en.target.id));
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+sections.forEach(s=>spy.observe(s));
+
+// reveal on scroll
+const reveal=new IntersectionObserver(entries=>{
+  entries.forEach((en,i)=>{
+    if(en.isIntersecting){
+      setTimeout(()=>en.target.classList.add('in'), i*90);
+      reveal.unobserve(en.target);
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>reveal.observe(el));
+
+// live clock (WIB = UTC+7)
+function tick(){
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jakarta'}));
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clock').textContent=h+':'+m;
+}
+tick(); setInterval(tick,1000);
 </script>
+
 </body>
 </html>
